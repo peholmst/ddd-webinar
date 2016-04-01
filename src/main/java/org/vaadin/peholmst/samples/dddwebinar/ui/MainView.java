@@ -24,7 +24,9 @@ public class MainView extends VerticalLayout implements View {
         addComponent(title);
 
         Label descr = new Label(
-            "This application demonstrates one way of turning a domain model into working code. It has some rough edges and contains some shortcuts here and there, but it will hopefully give you a hint of how to get started.");
+            "This application demonstrates one way of turning a domain model into working code. It has some rough edges"
+                + " and contains some shortcuts here and there, but it will hopefully give you a hint of how to get started."
+                + " Some features that would be must-haves in a production-ready application, such as error handling, are completely missing from this sample.");
         addComponent(descr);
 
         HorizontalLayout navigationButtons = new HorizontalLayout();
@@ -35,6 +37,8 @@ public class MainView extends VerticalLayout implements View {
             .addComponent(new Button("Appointments", evt -> getUI().getNavigator().navigateTo("appointments")));
         navigationButtons
             .addComponent(new Button("Procedures", evt -> getUI().getNavigator().navigateTo("admin/procedures")));
+        navigationButtons
+            .addComponent(new Button("Procedure Categories", evt -> getUI().getNavigator().navigateTo("admin/procedureCategories")));
     }
 
     @Override

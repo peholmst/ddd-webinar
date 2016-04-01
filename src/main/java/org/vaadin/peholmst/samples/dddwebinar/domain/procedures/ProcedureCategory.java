@@ -29,8 +29,17 @@ public class ProcedureCategory extends AbstractPersistable<Long> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Map<LicenseType, Integer> getLicenseTypes() {
         return licenseTypes;
+    }
+
+    public void setLicenseTypes(
+        Map<LicenseType, Integer> licenseTypes) {
+        this.licenseTypes = licenseTypes;
     }
 
     public static class Builder {
