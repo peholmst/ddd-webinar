@@ -69,12 +69,10 @@ public class BillingSection extends VerticalLayout implements Observer {
         addComponent(ledger);
         setExpandRatio(ledger, 1.0f);
 
-        TabSheet receivables = new TabSheet();
-        receivables.setHeight("350px");
-
-        //receivables.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        receivables.addStyleName(ValoTheme.TABSHEET_FRAMED);
+        Accordion receivables = new Accordion();
+        receivables.setSizeFull();
         addComponent(receivables);
+        setExpandRatio(receivables, 1.0f);
 
         claimSubSection = new ClaimSubSection();
         receivables.addTab(claimSubSection, "Insurance Claim");
