@@ -28,11 +28,23 @@ public class Procedure extends AbstractPersistable<Long> {
         return fee;
     }
 
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
     public String getCode() {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public ProcedureCategory getCategory() {
         return category;
+    }
+
+    public void setCategory(ProcedureCategory category) {
+        this.category = category;
     }
 }
