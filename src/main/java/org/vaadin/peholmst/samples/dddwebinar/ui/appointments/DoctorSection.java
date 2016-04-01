@@ -47,6 +47,7 @@ public class DoctorSection extends VerticalLayout implements Observer {
         Grid doctorLicenses = new Grid("Licenses", licenseContainer);
         doctorLicenses.setColumns("number", "type.name");
         doctorLicenses.setSizeFull();
+        doctorLicenses.setSelectionMode(Grid.SelectionMode.NONE);
         addComponent(doctorLicenses);
         setExpandRatio(doctorLicenses, 1.0f);
 

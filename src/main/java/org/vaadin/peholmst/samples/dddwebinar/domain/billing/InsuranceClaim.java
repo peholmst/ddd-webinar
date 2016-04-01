@@ -52,4 +52,9 @@ public class InsuranceClaim extends Receivable {
     public List<Procedure> getProcedures() {
         return getAppointment().getProcedures();
     }
+
+    @Override
+    public String getEntryDescription() {
+        return "Insurance claim";
+    }
 }

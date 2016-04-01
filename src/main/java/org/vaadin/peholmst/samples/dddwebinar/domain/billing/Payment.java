@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-public class Payment extends AbstractPersistable<Long> {
+public class Payment extends AbstractPersistable<Long> implements LedgerEntry {
 
     private Date paymentDate;
     private BigDecimal amount;
@@ -30,8 +30,23 @@ public class Payment extends AbstractPersistable<Long> {
         return paymentDate == null ? null : paymentDate.toLocalDate();
     }
 
+    @Override
+    public LocalDate getEntryDate() {
+        return getPaymentDate();
+    }
+
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    @Override
+    public BigDecimal getEntryAmount() {
+        return amount.negate();
+    }
+
+    @Override
+    public String getEntryDescription() {
+        return String.format("Payment for %s", receivable.getEntryDescription());
     }
 
     public Receivable getReceivable() {

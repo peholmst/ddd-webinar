@@ -35,4 +35,8 @@ public class License extends AbstractPersistable<Long> {
     public Doctor getDoctor() {
         return doctor;
     }
+
+    public String getDisplayName() {
+        return String.format("%s (%s)", number, type.getName());
+    }
 }

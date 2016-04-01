@@ -32,4 +32,8 @@ public class Insurance extends AbstractPersistable<Long> {
     public String getNumber() {
         return number;
     }
+
+    public String getDisplayName() {
+        return String.format("%s (%s)", number, insuranceCompany.getName());
+    }
 }

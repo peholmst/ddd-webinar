@@ -49,6 +49,7 @@ public class AppointmentSection extends VerticalLayout implements Observer {
         procedures.setColumns("code", "fee");
         procedures.setSizeFull();
         procedures.getColumn("fee").setConverter(new MoneyConverter());
+        procedures.setSelectionMode(Grid.SelectionMode.NONE);
         addComponent(procedures);
         setExpandRatio(procedures, 1.0f);
         Grid.FooterRow row = procedures.addFooterRowAt(0);

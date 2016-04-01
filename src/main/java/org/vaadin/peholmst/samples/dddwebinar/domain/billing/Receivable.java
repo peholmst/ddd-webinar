@@ -14,7 +14,7 @@ import org.vaadin.peholmst.samples.dddwebinar.domain.appointments.Appointment;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Receivable extends AbstractPersistable<Long> {
+public abstract class Receivable extends AbstractPersistable<Long> implements LedgerEntry {
 
     private Date issueDate;
     private BigDecimal amount;
@@ -34,7 +34,17 @@ public abstract class Receivable extends AbstractPersistable<Long> {
         return issueDate == null ? null : issueDate.toLocalDate();
     }
 
+    @Override
+    public LocalDate getEntryDate() {
+        return getIssueDate();
+    }
+
     public BigDecimal getAmount() {
+        return amount;
+    }
+
+    @Override
+    public BigDecimal getEntryAmount() {
         return amount;
     }
 

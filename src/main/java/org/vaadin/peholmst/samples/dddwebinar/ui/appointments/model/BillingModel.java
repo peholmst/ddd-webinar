@@ -34,14 +34,20 @@ public class BillingModel extends Observable {
     @Autowired
     InvoiceService invoiceService;
 
+    @Autowired
+    LedgerService ledgerService;
+
     private Appointment appointment;
     private InsuranceClaim insuranceClaim;
     private Payment insurancePayment;
     private Invoice invoice;
     private Payment invoicePayment;
+    private Ledger ledger;
 
     public void initialize(Appointment appointment) {
         this.appointment = appointment;
+        updateLedger();
+
         insuranceClaim = insuranceClaimRepository.findByAppointment(appointment);
         if (insuranceClaim != null) {
             insurancePayment = paymentRepository.findByReceivable(insuranceClaim);
@@ -54,8 +60,13 @@ public class BillingModel extends Observable {
         notifyObservers();
     }
 
+    private void updateLedger() {
+        this.ledger = ledgerService.getLedgerForAppointment(appointment);
+    }
+
     public void createInsuranceClaim() {
         insuranceClaim = insuranceClaimService.createInsuranceClaim(appointment);
+        updateLedger();
         setChanged();
         notifyObservers();
     }
@@ -63,6 +74,7 @@ public class BillingModel extends Observable {
     public void recordInsuranceClaimPayment(BigDecimal amount) {
         if (insuranceClaim != null && amount != null) {
             insurancePayment = paymentService.recordPayment(insuranceClaim, LocalDate.now(), amount);
+            updateLedger();
             setChanged();
             notifyObservers();
         }
@@ -70,6 +82,7 @@ public class BillingModel extends Observable {
 
     public void createInvoice() {
         invoice = invoiceService.createInvoice(appointment);
+        updateLedger();
         setChanged();
         notifyObservers();
     }
@@ -77,39 +90,29 @@ public class BillingModel extends Observable {
     public void recordInvoicePayment(BigDecimal amount) {
         if (invoice != null && amount != null) {
             invoicePayment = paymentService.recordPayment(invoice, LocalDate.now(), amount);
+            updateLedger();
             setChanged();
             notifyObservers();
         }
     }
 
-    public Optional<BigDecimal> getInsuranceClaimAmount() {
-        return insuranceClaim == null ? Optional.empty() : Optional.of(insuranceClaim.getAmount());
+    public Optional<InsuranceClaim> getInsuranceClaim() {
+        return Optional.ofNullable(insuranceClaim);
     }
 
-    public Optional<BigDecimal> getInsurancePaymentAmount() {
-        return insurancePayment == null ? Optional.empty() : Optional.of(insurancePayment.getAmount());
+    public Optional<Payment> getInsurancePayment() {
+        return Optional.ofNullable(insurancePayment);
     }
 
-    public Optional<BigDecimal> getInvoiceAmount() {
-        return invoice == null ? Optional.empty() : Optional.of(invoice.getAmount());
+    public Optional<Invoice> getInvoice() {
+        return Optional.ofNullable(invoice);
     }
 
-    public Optional<BigDecimal> getInvoicePaymentAmount() {
-        return invoicePayment == null ? Optional.empty() : Optional.of(invoicePayment.getAmount());
+    public Optional<Payment> getInvoicePayment() {
+        return Optional.ofNullable(invoicePayment);
     }
 
-    public BigDecimal getOutstanding() {
-        if (appointment == null) {
-            return BigDecimal.ZERO;
-        } else {
-            BigDecimal outstanding = appointment.getTotalFee();
-            if (insurancePayment != null) {
-                outstanding = outstanding.subtract(insurancePayment.getAmount());
-            }
-            if (invoicePayment != null) {
-                outstanding = outstanding.subtract(invoicePayment.getAmount());
-            }
-            return outstanding;
-        }
+    public Ledger getLedger() {
+        return ledger;
     }
 }

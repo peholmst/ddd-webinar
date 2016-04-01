@@ -2,6 +2,7 @@ package org.vaadin.peholmst.samples.dddwebinar.ui.appointments;
 
 import javax.annotation.PostConstruct;
 
+import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.peholmst.samples.dddwebinar.ui.appointments.model.AppointmentViewModel;
 
@@ -27,14 +28,21 @@ public class AppointmentView extends HorizontalLayout implements View {
     @Autowired
     PatientSection patientSection;
 
+    @Autowired
+    BillingSection billingSection;
+
     @PostConstruct
     void init() {
         setSpacing(true);
         setMargin(true);
         setSizeFull();
-        addComponent(patientSection);
+        VerticalLayout column1 = new VerticalLayout(patientSection, doctorSection);
+        column1.setSizeFull();
+        column1.setSpacing(true);
+        column1.setExpandRatio(doctorSection, 1.0f);
+        addComponent(column1);
         addComponent(appointmentSection);
-        addComponent(doctorSection);
+        addComponent(billingSection);
     }
 
     @Override

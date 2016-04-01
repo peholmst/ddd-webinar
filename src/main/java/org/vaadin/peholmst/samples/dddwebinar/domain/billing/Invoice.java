@@ -31,4 +31,9 @@ public class Invoice extends Receivable {
     public String getRecipientName() {
         return recipientName;
     }
+
+    @Override
+    public String getEntryDescription() {
+        return "Invoice";
+    }
 }

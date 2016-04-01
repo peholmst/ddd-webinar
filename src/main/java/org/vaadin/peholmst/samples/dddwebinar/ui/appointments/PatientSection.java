@@ -23,15 +23,11 @@ public class PatientSection extends VerticalLayout implements Observer {
     @Autowired
     PatientModel model;
 
-    @Autowired
-    BillingSection billingSection;
-
     private TextField patientName;
     private TextField insurance;
 
     @PostConstruct
     void init() {
-        setSizeFull();
         setSpacing(true);
 
         Label title = new Label("Patient");
@@ -46,9 +42,6 @@ public class PatientSection extends VerticalLayout implements Observer {
         insurance.setWidth("100%");
         addComponent(insurance);
 
-        addComponent(billingSection);
-        setExpandRatio(billingSection, 1.0f);
-
         model.addObserver(this); // Same scope, no need to remove afterwards
     }
 
@@ -60,7 +53,7 @@ public class PatientSection extends VerticalLayout implements Observer {
         patientName.setReadOnly(true);
 
         insurance.setReadOnly(false);
-        insurance.setValue(String.format("%s - %s", model.getInsurance().getNumber(), model.getInsurance().getInsuranceCompany().getName()));
+        insurance.setValue(model.getInsurance().getDisplayName());
         insurance.setReadOnly(true);
     }
 }
