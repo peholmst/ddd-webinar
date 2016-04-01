@@ -9,5 +9,5 @@ import org.vaadin.peholmst.samples.dddwebinar.domain.appointments.Appointment;
 @NoRepositoryBean
 public interface ReceivableRepository<E extends Receivable> extends JpaRepository<E, Long> {
 
-    Collection<E> findByAppointment(Appointment appointment);
+    E findByAppointment(Appointment appointment);
 }

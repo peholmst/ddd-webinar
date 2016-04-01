@@ -11,7 +11,6 @@ import org.vaadin.peholmst.samples.dddwebinar.ui.converters.PatientConverter;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.ViewScope;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -24,8 +23,11 @@ public class PatientSection extends VerticalLayout implements Observer {
     @Autowired
     PatientModel model;
 
+    @Autowired
+    BillingSection billingSection;
+
     private TextField patientName;
-    private ComboBox insurance;
+    private TextField insurance;
 
     @PostConstruct
     void init() {
@@ -40,9 +42,12 @@ public class PatientSection extends VerticalLayout implements Observer {
         patientName.setWidth("100%");
         addComponent(patientName);
 
-        insurance = new ComboBox("Insurance");
+        insurance = new TextField("Insurance");
         insurance.setWidth("100%");
         addComponent(insurance);
+
+        addComponent(billingSection);
+        setExpandRatio(billingSection, 1.0f);
 
         model.addObserver(this); // Same scope, no need to remove afterwards
     }
@@ -53,5 +58,9 @@ public class PatientSection extends VerticalLayout implements Observer {
         patientName
             .setValue(new PatientConverter().convertToPresentation(model.getPatient(), String.class, getLocale()));
         patientName.setReadOnly(true);
+
+        insurance.setReadOnly(false);
+        insurance.setValue(String.format("%s - %s", model.getInsurance().getNumber(), model.getInsurance().getInsuranceCompany().getName()));
+        insurance.setReadOnly(true);
     }
 }

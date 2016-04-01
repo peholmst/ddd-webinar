@@ -1,9 +1,13 @@
 package org.vaadin.peholmst.samples.dddwebinar.domain.billing;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.vaadin.peholmst.samples.dddwebinar.domain.appointments.Appointment;
@@ -12,33 +16,29 @@ import org.vaadin.peholmst.samples.dddwebinar.domain.appointments.Appointment;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Receivable extends AbstractPersistable<Long> {
 
-    @Temporal(TemporalType.DATE)
     private Date issueDate;
     private BigDecimal amount;
     @ManyToOne(optional = false)
     private Appointment appointment;
 
-    public Date getIssueDate() {
-        return issueDate;
+    public Receivable() {
     }
 
-    public void setIssueDate(Date issueDate) {
-        this.issueDate = issueDate;
+    public Receivable(LocalDate issueDate, BigDecimal amount, Appointment appointment) {
+        this.issueDate = Date.valueOf(issueDate);
+        this.amount = amount;
+        this.appointment = appointment;
+    }
+
+    public LocalDate getIssueDate() {
+        return issueDate == null ? null : issueDate.toLocalDate();
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public Appointment getAppointment() {
         return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
     }
 }

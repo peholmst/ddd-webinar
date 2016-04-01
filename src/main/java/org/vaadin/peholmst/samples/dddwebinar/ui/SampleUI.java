@@ -20,6 +20,8 @@ public class SampleUI extends UI {
     protected void init(VaadinRequest request) {
         Navigator navigator = new Navigator(this, this);
         navigator.addProvider(springViewProvider);
-        navigator.navigateTo("appointments");
+        if (navigator.getState().isEmpty()) {
+            navigator.navigateTo("appointments");
+        }
     }
 }

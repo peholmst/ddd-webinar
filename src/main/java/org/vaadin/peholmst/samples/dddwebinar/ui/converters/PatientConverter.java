@@ -17,7 +17,7 @@ public class PatientConverter implements Converter<String, Patient> {
     @Override
     public String convertToPresentation(Patient value, Class<? extends String> targetType, Locale locale)
         throws ConversionException {
-        return value == null ? "" : String.format("%s %s", value.getFirstName(), value.getLastName());
+        return value == null ? "" : value.getFullName();
     }
 
     @Override

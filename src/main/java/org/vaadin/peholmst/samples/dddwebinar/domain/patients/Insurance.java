@@ -2,6 +2,7 @@ package org.vaadin.peholmst.samples.dddwebinar.domain.patients;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.vaadin.peholmst.samples.dddwebinar.domain.insurance.InsuranceCompany;
@@ -11,7 +12,7 @@ public class Insurance extends AbstractPersistable<Long> {
 
     @ManyToOne
     private InsuranceCompany insuranceCompany;
-    @ManyToOne
+    @OneToOne
     private Patient patient;
     private String number;
 

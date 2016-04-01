@@ -34,4 +34,8 @@ public class Patient extends AbstractPersistable<Long> {
     public LocalDate getDateOfBirth() {
         return dateOfBirth == null ? null : dateOfBirth.toLocalDate();
     }
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
 }

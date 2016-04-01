@@ -23,6 +23,9 @@ public class AppointmentViewModel {
     @Autowired
     PatientModel patientModel;
 
+    @Autowired
+    BillingModel billingModel;
+
     private Appointment appointment;
 
     public void initialize(long appointmentId) {
@@ -33,5 +36,6 @@ public class AppointmentViewModel {
         doctorModel.initialize(appointment.getDoctor());
         appointmentModel.initialize(appointment);
         patientModel.initialize(appointment.getPatient());
+        billingModel.initialize(appointment);
     }
 }

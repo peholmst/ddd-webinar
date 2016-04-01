@@ -9,7 +9,15 @@ public class MoneyConverter implements Converter<String, BigDecimal> {
     @Override
     public BigDecimal convertToModel(String value, Class<? extends BigDecimal> targetType, Locale locale)
         throws ConversionException {
-        throw new ConversionException("This is a one-way converter");
+        if (value == null || value.isEmpty()) {
+            return null;
+        } else {
+            try {
+                return new BigDecimal(value.replace("$", ""));
+            } catch (NumberFormatException ex) {
+                throw new ConversionException(value + " is not a valid amount", ex);
+            }
+        }
     }
 
     @Override

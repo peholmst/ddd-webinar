@@ -112,8 +112,7 @@ class TestDataGenerator {
 
             if (RND.nextBoolean()) {
                 insuranceRepository.save(new Insurance(acmeHealth, patient, insuranceNumber()));
-            }
-            if (RND.nextBoolean()) {
+            } else {
                 insuranceRepository.save(new Insurance(globexInsurance, patient, insuranceNumber()));
             }
         }
