@@ -1,6 +1,15 @@
 package org.vaadin.peholmst.samples.dddwebinar.ui.admin;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.peholmst.samples.dddwebinar.domain.licensing.LicenseTypeRepository;
+import org.vaadin.peholmst.samples.dddwebinar.domain.procedures.ProcedureCategory;
+import org.vaadin.peholmst.samples.dddwebinar.domain.procedures.ProcedureCategoryRepository;
+import org.vaadin.peholmst.samples.dddwebinar.ui.converters.LicenseTypeMapConverter;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
@@ -9,14 +18,6 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.peholmst.samples.dddwebinar.domain.licensing.LicenseTypeRepository;
-import org.vaadin.peholmst.samples.dddwebinar.domain.procedures.Procedure;
-import org.vaadin.peholmst.samples.dddwebinar.domain.procedures.ProcedureCategory;
-import org.vaadin.peholmst.samples.dddwebinar.domain.procedures.ProcedureCategoryRepository;
-import org.vaadin.peholmst.samples.dddwebinar.ui.converters.LicenseTypeMapConverter;
-
-import javax.annotation.PostConstruct;
 
 @SpringView(name = "admin/procedureCategories")
 public class ProcedureCategoryAdminView extends VerticalLayout implements View {
@@ -80,7 +81,14 @@ public class ProcedureCategoryAdminView extends VerticalLayout implements View {
     }
 
     private void save(Button.ClickEvent event) {
-        // TODO
+        try {
+            binder.commit();
+            ProcedureCategory category = binder.getItemDataSource().getBean();
+            procedureCategoryRepository.saveAndFlush(category);
+            refresh();
+        } catch (FieldGroup.CommitException ex) {
+            Notification.show(ex.getMessage(), Notification.Type.ERROR_MESSAGE);
+        }
     }
 
     private void select(SelectionEvent event) {
